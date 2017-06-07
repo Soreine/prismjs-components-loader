@@ -48,15 +48,15 @@ prismJsx(Prism);
 
 ## API Reference
 
-### `PrismLoader.load(prism: Prism, componentId: string): void`
+##### `PrismLoader.load(prism: Prism, componentId: string): void`
 
 Inject a component and its dependencies in the given Prism instance. Does not load already loaded components.
 
-### `PrismLoader.LIST: Array<string>`
+##### `PrismLoader.LIST: Array<string>`
 
 The list of all component IDs.
 
-### `PrismLoader.MAP: Object<string, ComponentDefinition>`
+##### `PrismLoader.MAP: Object<string, ComponentDefinition>`
 
 A map between component IDs and their metadata.
 
@@ -67,6 +67,6 @@ type ComponentDefinition = {
 }
 ```
 
-### `PrismLoader.getDependencies(component: ComponentDefinition, prism: ?Prism): Array<string>`
+##### `PrismLoader.getDependencies(component: ComponentDefinition, prism: ?Prism): Array<string>`
 
 Returns a component's list of dependencies. If passed a Prism instance, filters out already loaded dependencies.
