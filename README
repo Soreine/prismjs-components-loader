@@ -50,7 +50,7 @@ prismJsx(Prism);
 
 ### `PrismLoader.load(prism: Prism, componentId: string): void`
 
-Inject a component and its dependencies in the given Prism instance.
+Inject a component and its dependencies in the given Prism instance. Does not load already loaded components.
 
 ### `PrismLoader.LIST: Array<string>`
 

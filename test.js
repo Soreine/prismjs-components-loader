@@ -2,6 +2,7 @@ const test = require('ava');
 const PrismLoader = require('./');
 
 test('should expose the right things', t => {
+    t.plan(4);
     t.truthy(PrismLoader.LIST);
     t.truthy(PrismLoader.MAP);
     t.truthy(PrismLoader.load);
@@ -9,6 +10,7 @@ test('should expose the right things', t => {
 });
 
 test('should list all components', t => {
+    t.plan(2);
     t.is(PrismLoader.LIST.length, 120);
     t.is(Object.keys(PrismLoader.MAP).length, 120);
 });
@@ -18,6 +20,7 @@ test('should expose individual components', t => {
 });
 
 test('Can inject a component in a Prism instance', t => {
+    t.plan(2);
     const Prism = require('prismjs');
     const prismJsx = require('./components/prism-jsx');
     prismJsx(Prism);
@@ -42,4 +45,19 @@ test('Can load a component and its dependencies', t => {
     t.truthy(Prism.languages.jsx);
     t.truthy(Prism.languages.javascript);
     t.truthy(Prism.languages.markup);
+});
+
+test('Do not load already loaded components', t => {
+    t.plan(3);
+    const mockPrism = {
+        languages: {
+            jsx: {}
+        }
+    };
+
+    PrismLoader.load(mockPrism, 'jsx');
+
+    t.deepEqual(mockPrism.languages.jsx, {});
+    t.falsy(mockPrism.languages.markup);
+    t.falsy(mockPrism.languages.javascript);
 });
