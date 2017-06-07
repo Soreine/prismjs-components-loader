@@ -1,25 +1,25 @@
-'use strict'
+'use strict';
 
-var fs = require('fs');
-var path = require('path');
-var child_process = require('child_process');
-var components = require('./components');
+const fs = require('fs');
+const path = require('path');
+const child_process = require('child_process');
+const componentDefinitions = require('./componentDefinitions');
 
 /**
  * Wrap a JS source in a closure function taking Prism as argument
  * @return {String}
  */
 function prismClosure(source) {
-    return 'function (Prism) {\n' + source + '\n}\n';
-};
+    return `function (Prism) {\n${source}\n}\n`;
+}
 
 /**
  * Make a JS module that export the given JS expression
  * @return {String}
  */
 function moduleExport(source) {
-    return 'module.exports = ' + source;
-};
+    return `module.exports = ${source}`;
+}
 
 /*
  * Generate the sources for closured components
@@ -35,13 +35,27 @@ function generateClosuredComponents() {
 
     // Generate
     fs.mkdirSync(componentsDir);
-    components.LIST.forEach(function (name) {
-        var componentSrcPath = './node_modules/prismjs/components/prism-'+name+'.js';
-        var componentSrc = fs.readFileSync(componentSrcPath);
-        var moduleSrc = moduleExport(prismClosure(componentSrc));
-        var outputPath = path.join(componentsDir, 'prism-'+name+'.js');
+    componentDefinitions.LIST.forEach((name) => {
+        const componentSrcPath = `./node_modules/prismjs/components/prism-${name}.js`;
+        const componentSrc = fs.readFileSync(componentSrcPath);
+        const moduleSrc = moduleExport(prismClosure(componentSrc));
+        const outputPath = path.join(componentsDir, `prism-${name}.js`);
         fs.writeFileSync(outputPath, moduleSrc);
+    });
+}
+
+/*
+ * Generate a module exposing all components
+ */
+function generateComponentIndex() {
+    const requires = componentDefinitions.LIST
+    .map((name) => {
+        return `  ${name}: require('./components/prism-${name}.js')`;
     })
+    .join(',\n');
+
+    fs.writeFileSync('./all-components.js', moduleExport(`{\n${requires}\n};\n`));
 }
 
 generateClosuredComponents();
+generateComponentIndex();

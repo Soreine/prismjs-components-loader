@@ -655,20 +655,20 @@ var MAP = {
 /**
  * List the dependencies for a component. If Prism is provided, only returns
  * dependencies that are not present in `Prism.languages`
- * @param {Object} component definition
- * @param {Prism} prism instance
+ * @param {Object} definition Component definition
+ * @param {Prism} Prism instance
  * @return {Array<String>}
  */
-function getDependencies(component, prism) {
-    const deps = component.require || [];
+function getDependencies(definition, Prism) {
+    const deps = definition.require || [];
 
-    if (prism) {
+    if (Prism) {
         return deps.filter(function (dep) {
             // Remove dependencies that are already loaded
-            return !Boolean(prism.languages[dep]);
+            return !Boolean(Prism.languages[dep]);
         });
     } else {
-        return component;
+        return deps;
     }
 }
 
