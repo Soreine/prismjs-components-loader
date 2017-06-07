@@ -17,6 +17,25 @@ yarn add prismjs-components-loader
 
 ## Usage
 
+You can use the `load` function to dynamically load a component and its dependencies:
+
+```js
+const Prism = require('prismjs');
+const PrismLoader = require('prismjs-components-loader');
+
+// Inject components and their dependencies
+PrismLoader.load(Prism, 'jsx');
+PrismLoader.load(Prism, 'yaml');
+
+// JSX and Yaml were injected
+assert(Boolean(Prism.languages.jsx));
+assert(Boolean(Prism.languages.yaml));
+
+// ... use Prism normally
+```
+
+Alternatively, you can just require the individual components files. This is useful if you are using a bundler like `browserify` and you don't want every components to be bundled. The example below should only include the source for `prism-jsx`:
+
 ```js
 const Prism = require('prismjs');
 const prismJsx = require('prismjs-components-loader/components/prism-jsx');
@@ -26,3 +45,28 @@ prismJsx(Prism);
 
 // ... use Prism normally
 ```
+
+## API Reference
+
+### `PrismLoader.load(prism: Prism, componentId: string): void`
+
+Inject a component and its dependencies in the given Prism instance.
+
+### `PrismLoader.LIST: Array<string>`
+
+The list of all component IDs.
+
+### `PrismLoader.MAP: Object<string, ComponentDefinition>`
+
+A map between component IDs and their metadata.
+
+```js
+type ComponentDefinition = {
+    title: string, // Human readable name of the component
+    require: Array<string> // The list of component IDs this component depends on
+}
+```
+
+### `PrismLoader.getDependencies(component: ComponentDefinition, prism: ?Prism): Array<string>`
+
+Returns a component's list of dependencies. If passed a Prism instance, filters out already loaded dependencies.
