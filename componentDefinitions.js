@@ -81,7 +81,7 @@ var LIST = [
     'pascal',
     'perl',
     'php',
-    'php',
+    'php-extras',
     'powershell',
     'processing',
     'prolog',
