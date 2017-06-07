@@ -1,1 +1,7 @@
-# Do publish ignored files from .gitignore
+!components/
+!all-components.js
+
+.eslintrc
+yarn.lock
+build.js
+.npmignore
