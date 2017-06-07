@@ -7,7 +7,8 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.js$/,
+                // All components should be wrapped in a closure
+                test: /components\/prism-\w*\.js$/,
                 loader: "./closure-loader.js"
             }
         ]

@@ -1,4 +1,6 @@
- Created by https://www.gitignore.io/api/node
+bundle.js
+
+# Created by https://www.gitignore.io/api/node
 
 ### Node ###
 # Logs
