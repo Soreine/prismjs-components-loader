@@ -21,6 +21,7 @@
     "author": "Soreine",
     "license": "MIT",
     "devDependencies": {
-        "prismjs": "^1.6.0"
+        "prismjs": "^1.6.0",
+        "webpack": "^2.6.1"
     }
 }
