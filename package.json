@@ -19,5 +19,8 @@
     ],
     "homepage": "https://github.com/Soreine/prismjs-components-loader#readme",
     "author": "Soreine",
-    "license": "MIT"
+    "license": "MIT",
+    "devDependencies": {
+        "prismjs": "^1.6.0"
+    }
 }
