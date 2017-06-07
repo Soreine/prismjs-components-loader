@@ -21,7 +21,7 @@ var LIST = [
     'cpp',
     'crystal',
     'csharp',
-    'css',
+    'css-extras',
     'css',
     'd',
     'dart',
