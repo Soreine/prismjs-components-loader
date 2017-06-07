@@ -1,0 +1,23 @@
+{
+    "name": "prismjs-components-loader",
+    "version": "0.0.1",
+    "description": "Exposes Prismjs components as functions taking a Prism instance as argument",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Soreine/prismjs-components-loader.git"
+    },
+    "bugs": {
+        "url": "https://github.com/Soreine/prismjs-components-loader/issues"
+    },
+    "keywords": [
+        "prismjs",
+        "node"
+    ],
+    "homepage": "https://github.com/Soreine/prismjs-components-loader#readme",
+    "author": "Soreine",
+    "license": "MIT"
+}
