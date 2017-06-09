@@ -7,18 +7,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 Nothing
 
+## [1.0.2] - 2017-06-09
+
+- Fix all-components build for components containing `-`
+
 ## [1.0.1] - 2017-06-07
 
-### Changed
 - Fixed `php-extras` listed as `php` in `LIST`
 
 ## 1.0.0 - 2017-06-07
 
-### Added
 - All components wrapped in a closure
 - `load` utility function
 - `MAP` of the components metadata
 - `LIST` of the components ids
 
-[Unreleased]: https://github.com/Soreine/prismjs-components-loader/compare/v1.0.1...HEAD
+[Unreleased]: https://github.com/Soreine/prismjs-components-loader/compare/v1.0.2...HEAD
+[1.0.2]: https://github.com/Soreine/prismjs-components-loader/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/Soreine/prismjs-components-loader/compare/v1.0.0...v1.0.1
