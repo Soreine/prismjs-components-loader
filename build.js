@@ -51,7 +51,7 @@ function generateClosuredComponents() {
 function generateComponentIndex() {
     const requires = componentDefinitions.LIST
     .map((name) => {
-        return `  ${name}: require('./components/prism-${name}.js')`;
+        return `  '${name}': require('./components/prism-${name}.js')`;
     })
     .join(',\n');
 
