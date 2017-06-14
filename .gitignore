@@ -1,6 +1,7 @@
 # Generated at build time
-components/
-all-components.js
+lib/
+src/components/
+src/all-components.js
 
 # Created by https://www.gitignore.io/api/node
 

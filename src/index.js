@@ -1,5 +1,5 @@
-var allComponents = require('./all-components');
-var componentDefinitions = require('./componentDefinitions');
+const allComponents = require('./all-components');
+const componentDefinitions = require('./componentDefinitions');
 
 /**
  * Load a component and its dependencies into the given Prism instance.
@@ -14,19 +14,17 @@ function load(Prism, componentId) {
         return;
     }
 
-    var definition =  componentDefinitions.MAP[componentId];
+    const definition =  componentDefinitions.MAP[componentId];
     if (!definition) {
         throw new Error('Unknown Prism component: ' + componentId);
     }
 
     // Load dependencies
-    var dependencies = componentDefinitions.getDependencies(definition, Prism);
-    dependencies.forEach(function (dep) {
-        load(Prism, dep);
-    })
+    const dependencies = componentDefinitions.getDependencies(definition, Prism);
+    dependencies.forEach(dep => load(Prism, dep));
 
     // Inject the component
-    var component = allComponents[componentId];
+    const component = allComponents[componentId];
     component(Prism);
 }
 

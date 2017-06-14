@@ -1,4 +1,4 @@
-var LIST = [
+const LIST = [
     'abap',
     'actionscript',
     'ada',
@@ -123,7 +123,7 @@ var LIST = [
 
 // Copied from https://github.com/PrismJS/prism/blob/3cae6ce887c9f70c9421188cd310da1afa8018d3/components.js
 // with `require` properties normalized to an Array<String>
-var MAP = {
+const MAP = {
     'markup': {
         'title': 'Markup',
         'aliasTitles': { 'html': 'HTML', 'xml': 'XML', 'svg': 'SVG', 'mathml': 'MathML' },
@@ -663,7 +663,7 @@ function getDependencies(definition, Prism) {
     const deps = definition.require || [];
 
     if (Prism) {
-        return deps.filter(function (dep) {
+        return deps.filter((dep) => {
             // Remove dependencies that are already loaded
             return !Boolean(Prism.languages[dep]);
         });

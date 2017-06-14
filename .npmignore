@@ -1,7 +1,1 @@
-!components/
-!all-components.js
-
-.eslintrc
-yarn.lock
-build.js
-.npmignore
+!lib

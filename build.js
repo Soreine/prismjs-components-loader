@@ -4,7 +4,7 @@
 const fs = require('fs');
 const path = require('path');
 const child_process = require('child_process');
-const componentDefinitions = require('./componentDefinitions');
+const componentDefinitions = require('./src/componentDefinitions');
 
 /**
  * Wrap a JS source in a closure function taking Prism as argument
@@ -26,13 +26,10 @@ function moduleExport(source) {
  * Generate the sources for closured components
  */
 function generateClosuredComponents() {
-    const componentsDir = './components';
+    const componentsDir = './src/components';
 
     // Cleanup
-
-    if (fs.statSync(componentsDir)) {
-        child_process.execSync('rm -rf ' + componentsDir);
-    }
+    child_process.execSync('rm -rf ' + componentsDir);
 
     // Generate
     fs.mkdirSync(componentsDir);
@@ -55,7 +52,7 @@ function generateComponentIndex() {
     })
     .join(',\n');
 
-    fs.writeFileSync('./all-components.js', moduleExport(`{\n${requires}\n};\n`));
+    fs.writeFileSync('./src/all-components.js', moduleExport(`{\n${requires}\n};\n`));
 }
 
 generateClosuredComponents();
