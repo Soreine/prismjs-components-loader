@@ -1,6 +1,6 @@
 {
   "name": "prismjs-components-loader",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Exposes Prismjs components as functions taking a Prism instance as argument",
   "main": "lib/index.js",
   "scripts": {
