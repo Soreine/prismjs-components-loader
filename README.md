@@ -22,7 +22,7 @@ You can use the `load` function to dynamically load a component and its dependen
 ```js
 const Prism = require('prismjs');
 const PrismLoader = require('prismjs-components-loader');
-const componentIndex = require('prismjs-components-loader/all-components');
+const componentIndex = require('prismjs-components-loader/lib/all-components');
 
 const prismLoader = new PrismLoader(componentIndex);
 
@@ -41,7 +41,7 @@ Alternatively, you can just require the individual components files. This is use
 
 ```js
 const Prism = require('prismjs');
-const prismJsx = require('prismjs-components-loader/components/prism-jsx');
+const prismJsx = require('prismjs-components-loader/lib/components/prism-jsx');
 
 // Inject JSX component manually
 prismJsx(Prism);
