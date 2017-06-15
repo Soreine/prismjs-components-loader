@@ -1,32 +1,44 @@
-const allComponents = require('./all-components');
 const componentDefinitions = require('./componentDefinitions');
 
-/**
- * Load a component and its dependencies into the given Prism instance.
- * Does not load already loaded components
- * @param  {Prism}  Prism       The prism instance
- * @param  {String} componentId The component id
- * @return {Void}
- */
-function load(Prism, componentId) {
-    if (Prism.languages[componentId]) {
-        // Already loaded
-        return;
+class PrismLoader {
+    constructor(componentsIndex) {
+        this.componentsIndex = componentsIndex;
     }
 
-    const definition =  componentDefinitions.MAP[componentId];
-    if (!definition) {
-        throw new Error('Unknown Prism component: ' + componentId);
+    /**
+     * Load a component and its dependencies into the given Prism instance.
+     * Does not load already loaded components
+     * @param  {Prism}  Prism       The prism instance
+     * @param  {String} componentId The component id
+     * @return {Void}
+     */
+    load(Prism, componentId) {
+        if (Prism.languages[componentId]) {
+            // Already loaded
+            return;
+        }
+
+        const definition =  componentDefinitions.COMPONENTS[componentId];
+        if (!definition) {
+            throw new Error('Unknown Prism component: ' + componentId);
+        }
+
+        // Load dependencies
+        const dependencies = componentDefinitions.getDependencies(definition, Prism);
+        dependencies.forEach(dep => this.load(Prism, dep));
+
+        // Inject the component
+        const component = this.componentsIndex[componentId];
+        if (!component) {
+            throw new Error('Missing Prism component: ' + componentId);
+        }
+
+        component(Prism);
     }
-
-    // Load dependencies
-    const dependencies = componentDefinitions.getDependencies(definition, Prism);
-    dependencies.forEach(dep => load(Prism, dep));
-
-    // Inject the component
-    const component = allComponents[componentId];
-    component(Prism);
 }
 
-module.exports = componentDefinitions;
-module.exports.load = load;
+PrismLoader.COMPONENTS = componentDefinitions.COMPONENTS;
+PrismLoader.getDependencies = componentDefinitions.getDependencies;
+PrismLoader.isCommon = componentDefinitions.isCommon;
+
+module.exports = PrismLoader;

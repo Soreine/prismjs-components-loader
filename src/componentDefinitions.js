@@ -1,132 +1,10 @@
-const LIST = [
-    'abap',
-    'actionscript',
-    'ada',
-    'apacheconf',
-    'apl',
-    'applescript',
-    'asciidoc',
-    'aspnet',
-    'autohotkey',
-    'autoit',
-    'bash',
-    'basic',
-    'batch',
-    'bison',
-    'brainfuck',
-    'bro',
-    'c',
-    'clike',
-    'coffeescript',
-    'cpp',
-    'crystal',
-    'csharp',
-    'css-extras',
-    'css',
-    'd',
-    'dart',
-    'diff',
-    'docker',
-    'eiffel',
-    'elixir',
-    'erlang',
-    'fortran',
-    'fsharp',
-    'gherkin',
-    'git',
-    'glsl',
-    'go',
-    'graphql',
-    'groovy',
-    'haml',
-    'handlebars',
-    'haskell',
-    'haxe',
-    'http',
-    'icon',
-    'inform7',
-    'ini',
-    'j',
-    'jade',
-    'java',
-    'javascript',
-    'jolie',
-    'json',
-    'jsx',
-    'julia',
-    'keyman',
-    'kotlin',
-    'latex',
-    'less',
-    'livescript',
-    'lolcode',
-    'lua',
-    'makefile',
-    'markdown',
-    'markup',
-    'matlab',
-    'mel',
-    'mizar',
-    'monkey',
-    'nasm',
-    'nginx',
-    'nim',
-    'nix',
-    'nsis',
-    'objectivec',
-    'ocaml',
-    'oz',
-    'parigp',
-    'parser',
-    'pascal',
-    'perl',
-    'php',
-    'php-extras',
-    'powershell',
-    'processing',
-    'prolog',
-    'properties',
-    'protobuf',
-    'puppet',
-    'pure',
-    'python',
-    'q',
-    'qore',
-    'r',
-    'reason',
-    'rest',
-    'rip',
-    'roboconf',
-    'ruby',
-    'rust',
-    'sas',
-    'sass',
-    'scala',
-    'scheme',
-    'scss',
-    'smalltalk',
-    'smarty',
-    'sql',
-    'stylus',
-    'swift',
-    'tcl',
-    'textile',
-    'twig',
-    'typescript',
-    'verilog',
-    'vhdl',
-    'vim',
-    'wiki',
-    'xojo',
-    'yaml'
-];
-
-// Copied from https://github.com/PrismJS/prism/blob/3cae6ce887c9f70c9421188cd310da1afa8018d3/components.js
-// with `require` properties normalized to an Array<String>
-const MAP = {
+// Based on https://github.com/PrismJS/prism/blob/3cae6ce887c9f70c9421188cd310da1afa8018d3/components.js
+// `require` properties were normalized to an Array<String>
+const COMPONENTS = {
     'markup': {
         'title': 'Markup',
         'aliasTitles': { 'html': 'HTML', 'xml': 'XML', 'svg': 'SVG', 'mathml': 'MathML' },
+        'shorthands': ['html', 'xml', 'svg', 'mathml'],
         'option': 'default'
     },
     'css': {
@@ -140,6 +18,7 @@ const MAP = {
     'javascript': {
         'title': 'JavaScript',
         'option': 'default',
+        'shorthands': ['js'],
         'require': ['clike']
     },
     'abap': {
@@ -186,6 +65,7 @@ const MAP = {
     },
     'bash': {
         'title': 'Bash',
+        'shorthands': ['sh'],
         'owner': 'zeitgeist87'
     },
     'basic': {
@@ -222,10 +102,12 @@ const MAP = {
     'cpp': {
         'title': 'C++',
         'require': ['c'],
+        'shorthands': ['c++', 'cplusplus'],
         'owner': 'zeitgeist87'
     },
     'coffeescript': {
         'title': 'CoffeeScript',
+        'shorthands': ['coffee'],
         'require': ['javascript'],
         'owner': 'R-osey'
     },
@@ -294,6 +176,7 @@ const MAP = {
     'go': {
         'title': 'Go',
         'require': ['clike'],
+        'shorthands': ['golang'],
         'owner': 'arnehormann'
     },
     'graphql': {
@@ -515,6 +398,7 @@ const MAP = {
     },
     'python': {
         'title': 'Python',
+        'shorthands': ['py'],
         'owner': 'multipetros'
     },
     'q': {
@@ -555,6 +439,7 @@ const MAP = {
     'ruby': {
         'title': 'Ruby',
         'require': ['clike'],
+        'shorthands': ['rb'],
         'owner': 'samflores'
     },
     'rust': {
@@ -623,6 +508,7 @@ const MAP = {
     'typescript': {
         'title': 'TypeScript',
         'require': ['javascript'],
+        'shorthands': ['ts'],
         'owner': 'vkbansal'
     },
     'verilog': {
@@ -652,15 +538,60 @@ const MAP = {
     }
 };
 
+// Mainstream and commonly used components.
+// According to some arbitrary beliefs.
+const COMMON = [
+    'aspnet',
+    'bash',
+    'c',
+    'clike',
+    'coffeescript',
+    'cpp',
+    'csharp',
+    'css',
+    'd',
+    'dart',
+    'diff',
+    'elixir',
+    'erlang',
+    'fsharp',
+    'go',
+    'graphql',
+    'groovy',
+    'haskell',
+    'http',
+    'java',
+    'javascript',
+    'jsx',
+    'julia',
+    'kotlin',
+    'lua',
+    'markup',
+    'objectivec',
+    'ocaml',
+    'perl',
+    'php',
+    'python',
+    'r',
+    'ruby',
+    'rust',
+    'scala',
+    'scheme',
+    'sql',
+    'swift',
+    'typescript',
+    'yaml'
+];
+
 /**
  * List the dependencies for a component. If Prism is provided, only returns
  * dependencies that are not present in `Prism.languages`
- * @param {Object} definition Component definition
+ * @param {Object} component Component definition
  * @param {Prism} Prism instance
  * @return {Array<String>}
  */
-function getDependencies(definition, Prism) {
-    const deps = definition.require || [];
+function getDependencies(component, Prism) {
+    const deps = component.require || [];
 
     if (Prism) {
         return deps.filter((dep) => {
@@ -672,8 +603,16 @@ function getDependencies(definition, Prism) {
     }
 }
 
+/**
+ * @param  {String}  componentId
+ * @return {Boolean} True if the component is a common one.
+ */
+function isCommon(componentId) {
+    return COMMON.indexOf(componentId) !== -1;
+}
+
 module.exports = {
-    LIST,
-    MAP,
+    COMPONENTS,
+    isCommon,
     getDependencies
 };

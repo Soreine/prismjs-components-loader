@@ -22,10 +22,13 @@ You can use the `load` function to dynamically load a component and its dependen
 ```js
 const Prism = require('prismjs');
 const PrismLoader = require('prismjs-components-loader');
+const componentIndex = require('prismjs-components-loader/all-components');
+
+const prismLoader = new PrismLoader(componentIndex);
 
 // Inject components and their dependencies
-PrismLoader.load(Prism, 'jsx');
-PrismLoader.load(Prism, 'yaml');
+prismLoader.load(Prism, 'jsx');
+prismLoader.load(Prism, 'yaml');
 
 // JSX and Yaml were injected
 assert(Boolean(Prism.languages.jsx));
@@ -48,21 +51,22 @@ prismJsx(Prism);
 
 ## API Reference
 
-##### `PrismLoader.load(prism: Prism, componentId: string): void`
+### Constructor
 
-Inject a component and its dependencies in the given Prism instance. Does not load already loaded components.
+##### `PrismLoader(componentsIndex)`
 
-##### `PrismLoader.LIST: Array<string>`
+Create a new instance of a PrismLoader. You must provide it an index of component sources, which is a `Map<componentId, componentExport>`. `all-components` is provided for you and contains all existing components. You can alternatively use `common-components` which contains the most common ones (subjectively). Or you can provide your own.
 
-The list of all component IDs.
+### Static methods
 
-##### `PrismLoader.MAP: Object<string, ComponentDefinition>`
+##### `PrismLoader.COMPONENTS: Object<string, ComponentDefinition>`
 
 A map between component IDs and their metadata.
 
 ```js
 type ComponentDefinition = {
     title: string, // Human readable name of the component
+    shorthands: Array<string>, // List of alternate identifiers. For example `ruby` and `rb`
     require: Array<string> // The list of component IDs this component depends on
 }
 ```
@@ -70,3 +74,13 @@ type ComponentDefinition = {
 ##### `PrismLoader.getDependencies(component: ComponentDefinition, prism: ?Prism): Array<string>`
 
 Returns a component's list of dependencies. If passed a Prism instance, filters out already loaded dependencies.
+
+##### `PrismLoader.isCommon(componentId: string): boolean`
+
+Returns true if the component is a common and popular one. This is totally subjective.
+
+### Instance methods
+
+##### `prismLoader.load(prism: Prism, componentId: string): void`
+
+Inject a component and its dependencies in the given Prism instance. Does not load already loaded components.

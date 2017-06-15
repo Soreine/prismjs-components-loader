@@ -2,6 +2,7 @@
 lib/
 src/components/
 src/all-components.js
+src/common-components.js
 
 # Created by https://www.gitignore.io/api/node
 
