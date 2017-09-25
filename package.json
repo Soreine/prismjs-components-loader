@@ -30,6 +30,6 @@
     "babel-preset-es2015": "^6.24.1",
     "eslint": "^3.19.0",
     "eslint-config-gitbook": "^1.5.0",
-    "prismjs": "^1.6.0"
+    "prismjs": "^1.8.1"
   }
 }
