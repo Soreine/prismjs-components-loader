@@ -1,7 +1,7 @@
 const test = require('ava');
 const PrismLoader = require('./');
 
-test('should expose the right things', (t) => {
+test('should expose the right things', t => {
     t.plan(4);
     t.truthy(PrismLoader.LIST);
     t.truthy(PrismLoader.MAP);
@@ -9,17 +9,17 @@ test('should expose the right things', (t) => {
     t.truthy(PrismLoader.getDependencies);
 });
 
-test('should list all components', (t) => {
+test('should list all components', t => {
     t.plan(2);
     t.is(PrismLoader.LIST.length, 120);
     t.is(Object.keys(PrismLoader.MAP).length, 120);
 });
 
-test('should expose individual components', (t) => {
+test('should expose individual components', t => {
     t.true(typeof require('./lib/components/prism-jsx') === 'function');
 });
 
-test('Can inject a component in a Prism instance', (t) => {
+test('Can inject a component in a Prism instance', t => {
     t.plan(2);
     const Prism = require('prismjs');
     const prismJsx = require('./lib/components/prism-jsx');
@@ -28,7 +28,7 @@ test('Can inject a component in a Prism instance', (t) => {
     t.truthy(Prism.languages.jsx);
 });
 
-test('Can load a component and its dependencies', (t) => {
+test('Can load a component and its dependencies', t => {
     t.plan(6);
     const Prism = require('prismjs');
     delete Prism.languages.jsx;
@@ -47,7 +47,7 @@ test('Can load a component and its dependencies', (t) => {
     t.truthy(Prism.languages.markup);
 });
 
-test('Do not load already loaded components', (t) => {
+test('Do not load already loaded components', t => {
     t.plan(3);
     const mockPrism = {
         languages: {

@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-'use strict';
 
 const fs = require('fs');
 const path = require('path');
@@ -31,11 +30,11 @@ function generateClosuredComponents() {
     const componentsDir = './src/components';
 
     // Cleanup
-    child_process.execSync('rm -rf ' + componentsDir);
+    child_process.execSync(`rm -rf ${componentsDir}`);
 
     // Generate
     fs.mkdirSync(componentsDir);
-    LIST.forEach((name) => {
+    LIST.forEach(name => {
         const componentSrcPath = `./node_modules/prismjs/components/prism-${name}.js`;
         const componentSrc = fs.readFileSync(componentSrcPath);
         const moduleSrc = moduleExport(prismClosure(componentSrc));
@@ -49,17 +48,19 @@ function generateClosuredComponents() {
  */
 function generateComponentIndex() {
     function generateSource(list) {
-        const requires = list.map((name) => {
-            return `  '${name}': require('./components/prism-${name}.js')`;
-        })
-        .join(',\n');
+        const requires = list
+            .map(
+                name => `  '${name}': require('./components/prism-${name}.js')`
+            )
+            .join(',\n');
         return moduleExport(`{\n${requires}\n};\n`);
     }
 
     fs.writeFileSync('./src/all-components.js', generateSource(LIST));
-    fs.writeFileSync('./src/common-components.js', generateSource(
-        LIST.filter(componentDefinitions.isCommon)
-    ));
+    fs.writeFileSync(
+        './src/common-components.js',
+        generateSource(LIST.filter(componentDefinitions.isCommon))
+    );
 }
 
 generateClosuredComponents();
