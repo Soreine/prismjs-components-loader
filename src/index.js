@@ -1,4 +1,4 @@
-import { getDependencies, LANGUAGES } from './componentDefinitions';
+import { getDependencies, getPeers, LANGUAGES } from './componentDefinitions';
 
 class PrismLoader {
     constructor(componentsIndex) {
@@ -10,10 +10,11 @@ class PrismLoader {
      * Does not load already loaded components
      * @param  {Prism}  Prism       The prism instance
      * @param  {String} componentId The component id
+     * @param  {Boolean} forceReload      Should force the reloading of the component
      * @return {Void}
      */
-    load(Prism, componentId) {
-        if (Prism.languages[componentId]) {
+    load(Prism, componentId, forceReload = false) {
+        if (Prism.languages[componentId] && !forceReload) {
             // Already loaded
             return;
         }
@@ -34,6 +35,12 @@ class PrismLoader {
         }
 
         component(Prism);
+
+        // Reload all peers
+        const peers = getPeers(componentId);
+        peers.forEach(peer => {
+            this.load(Prism, peer, true);
+        });
     }
 }
 

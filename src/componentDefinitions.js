@@ -3,17 +3,6 @@ import COMPONENTS from 'prismjs/components';
 const LANGUAGES = { ...COMPONENTS.languages };
 delete LANGUAGES.meta;
 
-// Peer dependencies of a language are
-// components that are enriched after another component is loaded.
-//
-// For example, `markup` is a peerDependency of `CSS`.
-// Loading only `markup` works,
-// but if you have already loaded `CSS` when you load `markup`,
-// then `markup` will highlights CSS inside <style> tags.
-// see https://github.com/PrismJS/prism/issues/1490
-//
-// We treat peer dependencies as optional.
-
 // Mainstream and commonly used components.
 // According to some arbitrary beliefs.
 const COMMON = [
@@ -80,6 +69,44 @@ function getDependencies(component, Prism) {
     return deps;
 }
 
+// Peer dependencies of a language are
+// components that are enriched after another component is loaded.
+//
+// For example, `markup` is a peerDependency of `CSS`.
+// Loading only `markup` works,
+// but if you have already loaded `CSS` when you load `markup`,
+// then `markup` will highlights CSS inside <style> tags.
+// see https://github.com/PrismJS/prism/issues/1490
+//
+// We treat peer dependencies as optional.
+
+// List all components for which a component is a peer dependency
+const PEERS = Object.keys(LANGUAGES).reduce((acc, language) => {
+    let { peerDependencies } = COMPONENTS.languages[language];
+    if (peerDependencies) {
+        if (!Array.isArray(peerDependencies)) {
+            peerDependencies = [peerDependencies];
+        }
+
+        peerDependencies.forEach(peer => {
+            if (!acc[peer]) {
+                acc[peer] = [];
+            }
+            acc[peer].push(language);
+        });
+    }
+
+    return acc;
+}, {});
+
+/**
+ * @param  {String}  componentId
+ * @return {Array} The list of components for which this component is a peer
+ */
+function getPeers(componentId) {
+    return PEERS[componentId] || [];
+}
+
 /**
  * @param  {String}  componentId
  * @return {Boolean} True if the component is a common one.
@@ -88,4 +115,4 @@ function isCommon(componentId) {
     return COMMON.indexOf(componentId) !== -1;
 }
 
-export { LANGUAGES, isCommon, getDependencies };
+export { LANGUAGES, isCommon, getDependencies, getPeers };
