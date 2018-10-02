@@ -1,6 +1,6 @@
 # Generated at build time
 lib/
-src/components/
+src/components
 src/all-components.js
 src/common-components.js
 

@@ -4,7 +4,7 @@
   "description": "Exposes Prismjs components as functions taking a Prism instance as argument",
   "main": "lib/index.js",
   "scripts": {
-    "build": "node build.js && babel src -d lib/",
+    "build": "babel-node build.js && babel src -d lib/",
     "test": "ava",
     "lint": "eslint .",
     "test:watch": "ava --watch",
@@ -24,6 +24,9 @@
   "homepage": "https://github.com/Soreine/prismjs-components-loader#readme",
   "author": "Soreine",
   "license": "MIT",
+  "peerDependencies": {
+    "prismjs": ">=1.8.0"
+  },
   "devDependencies": {
     "ava": "^0.19.1",
     "babel-cli": "^6.26.0",

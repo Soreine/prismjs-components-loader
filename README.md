@@ -61,7 +61,7 @@ Create a new instance of a PrismLoader. You must provide it an index of componen
 
 ##### `PrismLoader.COMPONENTS: Object<string, ComponentDefinition>`
 
-A map between component IDs and their metadata.
+A map between component IDs and their metadata. This is the same as `prismjs/components.js`
 
 ```js
 type ComponentDefinition = {

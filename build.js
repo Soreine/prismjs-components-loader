@@ -1,11 +1,21 @@
 #!/usr/bin/env node
+/* eslint-disable truc */
+import fs from 'fs';
+import path from 'path';
+import childProcess from 'child_process';
+import { LANGUAGES, isCommon } from './src/componentDefinitions';
 
-const fs = require('fs');
-const path = require('path');
-const child_process = require('child_process');
-const componentDefinitions = require('./src/componentDefinitions');
+/*
+    BUILD SCRIPT
 
-const LIST = Object.keys(componentDefinitions.COMPONENTS);
+    This script builds the following files:
+
+    src/components/
+    src/all-components.js
+    src/common-components.js
+ */
+
+const LIST = Object.keys(LANGUAGES);
 
 /**
  * Wrap a JS source in a closure function taking Prism as argument
@@ -20,7 +30,7 @@ function prismClosure(source) {
  * @return {String}
  */
 function moduleExport(source) {
-    return `module.exports = ${source}`;
+    return `export default ${source}`;
 }
 
 /*
@@ -30,7 +40,7 @@ function generateClosuredComponents() {
     const componentsDir = './src/components';
 
     // Cleanup
-    child_process.execSync(`rm -rf ${componentsDir}`);
+    childProcess.execSync(`rm -rf ${componentsDir}`);
 
     // Generate
     fs.mkdirSync(componentsDir);
@@ -50,7 +60,8 @@ function generateComponentIndex() {
     function generateSource(list) {
         const requires = list
             .map(
-                name => `  '${name}': require('./components/prism-${name}.js')`
+                name =>
+                    `  '${name}': require('./components/prism-${name}.js').default`
             )
             .join(',\n');
         return moduleExport(`{\n${requires}\n};\n`);
@@ -59,7 +70,7 @@ function generateComponentIndex() {
     fs.writeFileSync('./src/all-components.js', generateSource(LIST));
     fs.writeFileSync(
         './src/common-components.js',
-        generateSource(LIST.filter(componentDefinitions.isCommon))
+        generateSource(LIST.filter(isCommon))
     );
 }
 

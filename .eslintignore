@@ -1,2 +1,5 @@
 lib/
 node_modules/
+src/components/
+src/all-components.js
+src/common-components.js

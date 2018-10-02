@@ -1,8 +1,8 @@
-const componentDefinitions = require('./componentDefinitions');
+import { getDependencies, LANGUAGES } from './componentDefinitions';
 
 class PrismLoader {
     constructor(componentsIndex) {
-        this.componentsIndex = componentsIndex;
+        this.componentsIndex = componentsIndex || {};
     }
 
     /**
@@ -18,16 +18,13 @@ class PrismLoader {
             return;
         }
 
-        const definition = componentDefinitions.COMPONENTS[componentId];
+        const definition = LANGUAGES[componentId];
         if (!definition) {
             throw new Error(`Unknown Prism component: ${componentId}`);
         }
 
         // Load dependencies
-        const dependencies = componentDefinitions.getDependencies(
-            definition,
-            Prism
-        );
+        const dependencies = getDependencies(definition, Prism);
         dependencies.forEach(dep => this.load(Prism, dep));
 
         // Inject the component
@@ -40,7 +37,4 @@ class PrismLoader {
     }
 }
 
-PrismLoader.getDependencies = componentDefinitions.getDependencies;
-PrismLoader.isCommon = componentDefinitions.isCommon;
-
-module.exports = PrismLoader;
+export default PrismLoader;
