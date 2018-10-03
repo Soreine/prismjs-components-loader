@@ -2,9 +2,9 @@
 /* eslint-disable import/no-dynamic-require */
 
 import test from 'ava';
-import PrismLoader from './';
-import commonComponents from './lib/common-components';
-import allComponents from './lib/all-components';
+import PrismLoader from './dist/';
+import commonComponents from './dist/common-components';
+import allComponents from './dist/all-components';
 
 test('should expose the right things', t => {
     t.plan(2);
@@ -20,7 +20,7 @@ test('should expose individual components in a closure', t => {
 
     ids.forEach(id => {
         t.true(
-            typeof require(`./lib/components/prism-${id}`).default ===
+            typeof require(`./dist/components/prism-${id}`).default ===
                 'function'
         );
     });
@@ -29,7 +29,7 @@ test('should expose individual components in a closure', t => {
 test('Can inject a component in a Prism instance', t => {
     t.plan(2);
     const Prism = require('prismjs');
-    const prismJsx = require('./lib/components/prism-jsx').default;
+    const prismJsx = require('./dist/components/prism-jsx').default;
     prismJsx(Prism);
     t.truthy(Prism.languages.javascript);
     t.truthy(Prism.languages.jsx);
