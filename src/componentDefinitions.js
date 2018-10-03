@@ -69,17 +69,6 @@ function getDependencies(component, Prism) {
     return deps;
 }
 
-// Peer dependencies of a language are
-// components that are enriched after another component is loaded.
-//
-// For example, `markup` is a peerDependency of `CSS`.
-// Loading only `markup` works,
-// but if you have already loaded `CSS` when you load `markup`,
-// then `markup` will highlights CSS inside <style> tags.
-// see https://github.com/PrismJS/prism/issues/1490
-//
-// We treat peer dependencies as optional.
-
 // List all components for which a component is a peer dependency
 const PEERS = Object.keys(LANGUAGES).reduce((acc, language) => {
     let { peerDependencies } = COMPONENTS.languages[language];
@@ -101,7 +90,7 @@ const PEERS = Object.keys(LANGUAGES).reduce((acc, language) => {
 
 /**
  * @param  {String}  componentId
- * @return {Array} The list of components for which this component is a peer
+ * @return {Array} The list of components for which this component is a peer dependency
  */
 function getPeers(componentId) {
     return PEERS[componentId] || [];

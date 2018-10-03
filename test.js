@@ -1,8 +1,10 @@
 /* eslint-disable global-require */
+/* eslint-disable import/no-dynamic-require */
 
 import test from 'ava';
 import PrismLoader from './';
 import commonComponents from './lib/common-components';
+import allComponents from './lib/all-components';
 
 test('should expose the right things', t => {
     t.plan(2);
@@ -12,8 +14,16 @@ test('should expose the right things', t => {
     t.truthy(instance.load);
 });
 
-test('should expose individual components', t => {
-    t.true(typeof require('./lib/components/prism-jsx').default === 'function');
+test('should expose individual components in a closure', t => {
+    const ids = Object.keys(allComponents);
+    t.plan(ids.length);
+
+    ids.forEach(id => {
+        t.true(
+            typeof require(`./lib/components/prism-${id}`).default ===
+                'function'
+        );
+    });
 });
 
 test('Can inject a component in a Prism instance', t => {
@@ -69,4 +79,25 @@ test('should fail to load non-provided component', t => {
     t.throws(() => {
         loader.load(Prism, 'unknown');
     });
+});
+
+test('Reloads peers when needed', t => {
+    t.plan(5);
+    const Prism = require('prismjs');
+
+    const loader = new PrismLoader(allComponents);
+    loader.load(Prism, 'pug');
+    t.truthy(Prism.languages.pug);
+
+    const beforePug = Prism.languages.pug;
+
+    // Load stylus which is a peer of Pug
+    loader.load(Prism, 'stylus');
+    t.truthy(Prism.languages.stylus);
+
+    const afterPug = Prism.languages.pug;
+
+    t.truthy(Prism.languages.pug);
+    t.truthy(Prism.languages.stylus);
+    t.not(beforePug, afterPug);
 });

@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "babel-node build.js && babel src -d lib/",
-    "test": "ava",
+    "test": "npm run build && ava",
     "lint": "eslint .",
     "test:watch": "ava --watch",
     "prepublish": "npm run build"

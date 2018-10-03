@@ -14,7 +14,9 @@ class PrismLoader {
      * @return {Void}
      */
     load(Prism, componentId, forceReload = false) {
-        if (Prism.languages[componentId] && !forceReload) {
+        const isLoaded = id => Boolean(Prism.languages[id]);
+
+        if (isLoaded(componentId) && !forceReload) {
             // Already loaded
             return;
         }
@@ -36,11 +38,19 @@ class PrismLoader {
 
         component(Prism);
 
-        // Reload all peers
-        const peers = getPeers(componentId);
-        peers.forEach(peer => {
-            this.load(Prism, peer, true);
-        });
+        // Peer dependencies of a component X are
+        // components that are enriched after component X is loaded.
+        //
+        // For example, `markup` is a peerDependency of `CSS`.
+        // Loading only `markup` works,
+        // but if you have already loaded `CSS` when you load `markup`,
+        // then `markup` will highlights CSS inside <style> tags.
+        // see https://github.com/PrismJS/prism/issues/1490
+
+        // Reload all components that benefit of the new loaded component
+        getPeers(componentId)
+            .filter(isLoaded)
+            .forEach(peer => this.load(Prism, peer, true));
     }
 }
 
