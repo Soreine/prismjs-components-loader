@@ -25,7 +25,7 @@
   "author": "Soreine",
   "license": "MIT",
   "peerDependencies": {
-    "prismjs": ">=1.8.0"
+    "prismjs": ">=1.15.0"
   },
   "devDependencies": {
     "ava": "^0.19.1",
