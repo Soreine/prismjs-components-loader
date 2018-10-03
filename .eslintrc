@@ -1,3 +1,7 @@
 {
-    "extends": "gitbook"
+    "parser": "babel-eslint",
+    "extends": ["gitbook"],
+    "rules": {
+      "import/no-commonjs": 2
+    }
 }

@@ -2,10 +2,10 @@
   "name": "prismjs-components-loader",
   "version": "2.0.0",
   "description": "Exposes Prismjs components as functions taking a Prism instance as argument",
-  "main": "lib/index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "build": "node build.js && babel src -d lib/",
-    "test": "ava",
+    "build": "babel-node build.js && babel src -d dist/",
+    "test": "npm run build && ava",
     "lint": "eslint .",
     "test:watch": "ava --watch",
     "prepublish": "npm run build"
@@ -24,12 +24,25 @@
   "homepage": "https://github.com/Soreine/prismjs-components-loader#readme",
   "author": "Soreine",
   "license": "MIT",
+  "peerDependencies": {
+    "prismjs": ">=1.8.0"
+  },
   "devDependencies": {
     "ava": "^0.19.1",
-    "babel-cli": "^6.24.1",
-    "babel-preset-es2015": "^6.24.1",
-    "eslint": "^3.19.0",
-    "eslint-config-gitbook": "^1.5.0",
-    "prismjs": "^1.6.0"
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.2",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "eslint": "^4.15.0",
+    "eslint-config-gitbook": "4.0.0",
+    "eslint-plugin-flowtype": "^2.50.3",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-prettier": "^2.6.0",
+    "eslint-plugin-react": "^7.8.2",
+    "prettier": "^1.13.3",
+    "prismjs": "^1.15.0"
   }
 }
