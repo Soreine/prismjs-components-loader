@@ -22,7 +22,7 @@ You can use the `load` function to dynamically load a component and its dependen
 ```js
 import Prism from 'prismjs';
 import PrismLoader from 'prismjs-components-loader';
-import allComponents from 'prismjs-components-loader/lib/all-components';
+import allComponents from 'prismjs-components-loader/dist/all-components';
 
 const prismLoader = new PrismLoader(allComponents);
 
@@ -41,7 +41,7 @@ Alternatively, you can just require the individual components files. This is use
 
 ```js
 import Prism from 'prismjs';
-import prismJsx from 'prismjs-components-loader/lib/components/prism-jsx';
+import prismJsx from 'prismjs-components-loader/dist/components/prism-jsx';
 
 // Inject JSX component manually
 prismJsx(Prism);
