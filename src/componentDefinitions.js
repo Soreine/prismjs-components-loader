@@ -32,6 +32,7 @@ const COMMON = [
     'kotlin',
     'lua',
     'markup',
+    'markup-templating',
     'objectivec',
     'ocaml',
     'perl',

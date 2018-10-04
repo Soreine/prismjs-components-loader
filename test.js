@@ -133,7 +133,7 @@ test('Can load all components in a Prism instance', t => {
     const allLoader = new PrismLoader(allComponents);
     all.forEach(id => {
         allLoader.load(Prism, id);
-        t.truthy(Prism.languages[id]);
+        t.truthy(Prism.languages[id.replace(/-extras/, '')]);
     });
 
     clearPrism();
