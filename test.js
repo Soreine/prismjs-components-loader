@@ -2,9 +2,17 @@
 /* eslint-disable import/no-dynamic-require */
 
 import test from 'ava';
+import Prism from 'prismjs';
 import PrismLoader from './dist/';
 import commonComponents from './dist/common-components';
 import allComponents from './dist/all-components';
+
+function clearPrism(languages = Object.keys(allComponents)) {
+    // Clear loaded languages
+    languages.forEach(lang => {
+        delete Prism.languages[lang];
+    });
+}
 
 test('should expose the right things', t => {
     t.plan(2);
@@ -28,19 +36,17 @@ test('should expose individual components in a closure', t => {
 
 test('Can inject a component in a Prism instance', t => {
     t.plan(2);
-    const Prism = require('prismjs');
     const prismJsx = require('./dist/components/prism-jsx').default;
     prismJsx(Prism);
+
     t.truthy(Prism.languages.javascript);
     t.truthy(Prism.languages.jsx);
+
+    clearPrism();
 });
 
 test('Can load a component and its dependencies', t => {
     t.plan(6);
-    const Prism = require('prismjs');
-    delete Prism.languages.jsx;
-    delete Prism.languages.javascript;
-    delete Prism.languages.markup;
 
     t.falsy(Prism.languages.jsx);
     t.falsy(Prism.languages.javascript);
@@ -53,10 +59,14 @@ test('Can load a component and its dependencies', t => {
     t.truthy(Prism.languages.jsx);
     t.truthy(Prism.languages.javascript);
     t.truthy(Prism.languages.markup);
+
+    clearPrism();
 });
 
 test('Do not load already loaded components', t => {
     t.plan(3);
+
+    // Fake that it's already loaded
     const mockPrism = {
         languages: {
             jsx: {}
@@ -74,7 +84,6 @@ test('Do not load already loaded components', t => {
 test('should fail to load non-provided component', t => {
     t.plan(1);
 
-    const Prism = require('prismjs');
     const loader = new PrismLoader(commonComponents);
     t.throws(() => {
         loader.load(Prism, 'unknown');
@@ -83,7 +92,8 @@ test('should fail to load non-provided component', t => {
 
 test('Reloads peers when needed', t => {
     t.plan(5);
-    const Prism = require('prismjs');
+
+    clearPrism();
 
     const loader = new PrismLoader(allComponents);
     loader.load(Prism, 'pug');
@@ -100,4 +110,31 @@ test('Reloads peers when needed', t => {
     t.truthy(Prism.languages.pug);
     t.truthy(Prism.languages.stylus);
     t.not(beforePug, afterPug);
+
+    clearPrism();
+});
+
+// This test is done last, because it loads everything.
+test('Can load all components in a Prism instance', t => {
+    const all = Object.keys(allComponents);
+    const commons = Object.keys(commonComponents);
+    t.plan(all.length + commons.length);
+
+    // Load all commons first
+    const commonLoader = new PrismLoader(commonComponents);
+    commons.forEach(id => {
+        commonLoader.load(Prism, id);
+        t.truthy(Prism.languages[id]);
+    });
+
+    clearPrism();
+
+    // Load everything
+    const allLoader = new PrismLoader(allComponents);
+    all.forEach(id => {
+        allLoader.load(Prism, id);
+        t.truthy(Prism.languages[id]);
+    });
+
+    clearPrism();
 });
